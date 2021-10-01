@@ -3,4 +3,4 @@
 
 # step
 1. npm install
-2. node index
+2. node index or just double click PokeEgg.bat to run browser.

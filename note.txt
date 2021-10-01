@@ -1,4 +1,4 @@
-1.先node init导入package.json
+1.先npm install导入package.json
 2.index.js
     const express = require('express');
     const path = require('path');
