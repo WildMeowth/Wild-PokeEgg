@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>孵蛋箱数</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/jquery.cookie.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>当前用户：
+           <span id="currentUser"></span>
+           <button id="btnLogout">退出</button>     
+        </h2>
+        <div style="height:10px"></div>
+		<div class="input"style="display: block;"><span>已孵小火龙50箱</span></div>
+        <div class="input" id="inputO">
+        </div>
+        <button id="btnQD">今日已孵</button>
+        <div class="input" id="inputU">
+        </div>
+        <button id="btnTQ" style="display:none;">点错了, 我要回退</button>
+    </div>
+    <script>
+        $(function(){
+            // 登录判断，如果没登录，跳转到登录页。
+            // cookie是保留到客户端的一段数据，数据不安全，不建议保存账号，密码，银行卡等相对安全性要求比较高的数据，保存其他数据是建议加密。保存的数据大小有限制，大概是4kb
+            // jQuery.cookie.js
+            // 为了本地方便使用, 跳过登录
+            //var loginName = $.cookie('loginName');
+            var loginName = 'WildMeowth';
+            if(!loginName){
+                location.href = '/login.html';
+                return;
+            }
+            
+            $('#currentUser').text(loginName);
+            
+            var nm = 'wildmeowth';
+            var pm = 'qd';
+            // 读取箱数
+            $.post('/api/dq',{nm,pm},function(data){
+                console.log(data);
+                if(data.code !=200 ){
+                    // 签到不成功弹框
+                    alert("有问题");                    
+                    return;
+                }
+                $('#inputO').show();
+                $('#inputO').html(`<span>已孵伊布${data.num}箱</span>`);
+            });
+
+            // 签到
+            $('#btnQD').click(function(){
+                $(this).hide(1000);
+                $('#inputO').hide(1000);
+                $('#inputU').show(1000);
+                pm = 'qd';
+            
+                $.post('/api/js',{nm,pm},function(data){
+                    console.log(data);
+                    if(data.code !=200 ){
+                        // 签到不成功弹框
+                        alert(data.message);                    
+                        return;
+                    }
+                    $('#inputU').html(`<span>${data.message}</span><br/><span>已孵伊布${data.num}箱</span>`);
+                    $('#btnTQ').show(1000);
+                });
+            });
+
+            // 回滚
+            $('#btnTQ').click(function(){
+                $(this).hide(1000);
+                $('#inputU').hide(1000);
+                $('#inputO').show(1000);
+                pm = 'tq';
+            
+                $.post('/api/js',{nm,pm},function(data){
+                    console.log(data);
+                    if(data.code !=200 ){
+                        // 签到不成功弹框
+                        alert(data.message);                    
+                        return;
+                    }
+                    $('#inputO').html(`<span>${data.message}</span><br/><span>已孵伊布${data.num}箱</span>`);
+                    $('#btnQD').show(1000);
+                })
+            });
+
+            $('#btnLogout').click(function(){
+                $.cookie('loginName','');
+                location.href = '/login.html'
+            });
+        });
+    </script>
+</body>
+</html>

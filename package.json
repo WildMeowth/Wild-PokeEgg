@@ -1,0 +1,20 @@
+{
+  "name": "fudanjishu-web",
+  "version": "1.0.0",
+  "description": "孵蛋计数",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "open": "^7.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "ajax"
+  ],
+  "author": "wm",
+  "license": "ISC"
+}
