@@ -6,8 +6,9 @@
 
 开发文档： [PokeEgg 开发文档(github)](/note.txt)
 
+# Description
 孵蛋计数/Egg count
 
-# step
+# Step
 1. npm install
 2. node index or just double click PokeEgg.bat to run browser.
